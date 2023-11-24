@@ -23,7 +23,7 @@ class Product(models.Model):
     time_update = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'{self.name} {self.price}'
+        return f'{self.name}'
     class Meta:
         verbose_name = 'продукт'
         verbose_name_plural = 'продукты'

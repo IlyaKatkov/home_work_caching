@@ -3,7 +3,6 @@
 {% block content %}
 <div class="container">
     <div class="row text-center">
-        {% for object in object_list %}
         <div class="col-12">
             <div class="card mb-4 box-shadow">
                 <div class="card-header">
@@ -14,15 +13,14 @@
                     <h1 class="card-title pricing-card-title">{{ object|title }}</h1>
                     <ul class="list-unstyled mt-3 mb-4 text-start m-3">
                         <li>- {{ object.price }}</li>
-                        <li>- {{ object.description|truncatechars:100 }}</li>
+                        <li>- {{ object.description }}</li>
                         <li>- {{ object.category }}</li>
-
+                        <li>- {{ object.time_create }}</li>
+                        <li>- {{ object.time_update }}</li>
                     </ul>
-                    <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:product' %}">Купить</a>
+                    <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:index' %}">Назад</a>
                 </div>
             </div>
-        {% endfor %}
         </div>
     </div>
-
     {% endblock %}
