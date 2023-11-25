@@ -19,8 +19,10 @@
                         <li>- {{ object.time_update }}</li>
                     </ul>
                     <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:index' %}">Назад</a>
-                </div>
+                      </div>
             </div>
         </div>
+        {% endfor %}
     </div>
-    {% endblock %}
+</div>
+{% endblock %}

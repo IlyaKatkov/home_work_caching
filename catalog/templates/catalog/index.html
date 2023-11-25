@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row text-center">
         {% for object in object_list %}
-        <div class="col-12">
+        <div class="col-4">
             <div class="card mb-4 box-shadow">
                 <div class="card-header">
                     <h4 class="my-0 font-weight-normal">Лучшие товары</h4>
@@ -18,11 +18,11 @@
                         <li>- {{ object.category }}</li>
 
                     </ul>
-                    <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:product' %}">Купить</a>
+                    <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:product' object.pk %}">Купить</a>
                 </div>
             </div>
-        {% endfor %}
         </div>
+        {% endfor %}
     </div>
-
-    {% endblock %}
+</div>
+{% endblock %}
