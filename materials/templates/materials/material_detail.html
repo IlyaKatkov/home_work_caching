@@ -1,0 +1,32 @@
+{% extends 'catalog/base.html' %}
+{% load my_tags%}
+{% block content %}
+<div class="container">
+    <div class="row text-center">
+        <div class="col-12">
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">Материалы</h4>
+                </div>
+                <div class="card-body">
+                    <img src="{{ object.picture|mediapath }}" alt="image" height=200px width=300px>
+                    <h1 class="card-title pricing-card-title"> Материал {{ object|title }}</h1>
+                    <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                        <li>- {{ object.title }}</li>
+                        <li>- {{ object.content }}</li>
+                        <li>- {{ object.time_create }}</li>
+                        <li>- {{ object.is_published }}</li>
+                    </ul>
+                    <a class="p-2 btn btn-outline-primary" href="{% url 'materials:list' %}">Назад</a>
+                      </div>
+            </div>
+            <div class="card-footer">
+                Просмотры: {{ object.views_count }}
+            </div>
+        </div>
+        <div class="col-6">
+            <img src="/media/{{ object.picture}}">
+        </div>
+    </div>
+</div>
+{% endblock %}

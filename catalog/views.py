@@ -1,30 +1,48 @@
-from django.shortcuts import render
-from catalog.models import Product
+from catalog.models import Product, Contact
+from django.views.generic import ListView, DetailView
+
 
 # Create your views here.
 
-def index(request):
-    product_list = Product.objects.all()
-    context = {
-        'object_list': product_list,
+
+class ProductListView(ListView):
+    model = Product
+    extra_context = {
         'title': 'Главная'
     }
-    return render(request, "catalog/index.html", context)
 
-def contacts(request):
-    if request.method == 'POST':
-        name = request.POST.get('name')
-        email = request.POST.get('email')
-        message = request.POST.get('message')
-        print(f'{name} ({email}): {message}')
-    context = {
-        'title': 'Контакты'
-    }
-    return render(request, "catalog/contacts.html", context)
 
-def product(request, pk):
-    context = {
-        'object': Product.objects.get(pk=pk)
-    }
-    print(context)
-    return render(request, 'catalog/product.html', context)
+class ContactListView(ListView):
+    model = Contact
+    template_name = 'catalog/contacts.html'
+
+
+
+class ProductDetailView(DetailView):
+    model = Product
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# def get_queryset(self):
+    #     queryset = super().get_queryset()
+    #     queryset = queryset.filter(pk=self.kwargs.get('pk'))
+    #     return queryset
+    # template_name = 'catalog/product_detail.html'
+    #
+    # def get_context_data(self, *args, **kwargs):
+    #     context_data = super().get_context_data(*args, **kwargs)
+    #
+    #     product_item = Product.object.get(pk=self.kwargs.get('pk'))
+    #     context_data['product_pk'] = product_item.pk
+    #     return context_data

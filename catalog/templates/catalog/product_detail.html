@@ -6,7 +6,7 @@
         <div class="col-12">
             <div class="card mb-4 box-shadow">
                 <div class="card-header">
-                    <h4 class="my-0 font-weight-normal">Лучшие товары</h4>
+                    <h4 class="my-0 font-weight-normal">Материалы</h4>
                 </div>
                 <div class="card-body">
                     <img src="{{ object.picture|mediapath }}" alt="image" height=200px width=300px>
@@ -21,6 +21,9 @@
                     <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:index' %}">Назад</a>
                       </div>
             </div>
+        </div>
+        <div class="col-6">
+            <img src="/media/{{ object.picture}}">
         </div>
     </div>
 </div>
