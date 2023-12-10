@@ -1,12 +1,11 @@
 from materials.models import Materials
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from django.urls import reverse_lazy
 from pytils.translit import slugify
 from django.urls import reverse
+from django.urls import reverse_lazy
 class MaterialCreateView(CreateView):
     model = Materials
     fields = ('title', 'content', 'picture')
-
     def form_valid(self, form):
         if form.is_valid():
             new_mat = form.save()
@@ -16,7 +15,7 @@ class MaterialCreateView(CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('materials:view', args=[self.kwargs.get('pk')])
+        return reverse('materials:view', args=[self.object.pk])
 
 
 class MaterialListView(ListView):
