@@ -1,5 +1,7 @@
-from catalog.models import Product, Contact
-from django.views.generic import ListView, DetailView
+from catalog.models import Product, Contact, Version
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.urls import reverse_lazy
+from catalog.forms import ProductForm
 
 
 # Create your views here.
@@ -21,6 +23,16 @@ class ContactListView(ListView):
 class ProductDetailView(DetailView):
     model = Product
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['name'] = str(context['object'])
+        context['version'] = Version.objects.filter(product=self.kwargs['pk'], version_indication=True)
+        return context
+
+class ProductCreateView(CreateView):
+    model = Product
+    form_class = ProductForm
+    success_url = reverse_lazy('catalog:index')
 
 
 
@@ -34,15 +46,6 @@ class ProductDetailView(DetailView):
 
 
 
-# def get_queryset(self):
-    #     queryset = super().get_queryset()
-    #     queryset = queryset.filter(pk=self.kwargs.get('pk'))
-    #     return queryset
-    # template_name = 'catalog/product_detail.html'
-    #
-    # def get_context_data(self, *args, **kwargs):
-    #     context_data = super().get_context_data(*args, **kwargs)
-    #
-    #     product_item = Product.object.get(pk=self.kwargs.get('pk'))
-    #     context_data['product_pk'] = product_item.pk
-    #     return context_data
+
+
+
