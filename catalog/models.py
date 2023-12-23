@@ -51,7 +51,7 @@ class Version(models.Model):
     version_indication = models.BooleanField(default=True, verbose_name='признак версии')
 
     def __str__(self):
-        return f'{self.product} {self.name_version}'
+        return f'{self.number_version} {self.name_version}'
 
     class Meta:
         verbose_name = 'версия'

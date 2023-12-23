@@ -25,7 +25,8 @@ class ProductDetailView(DetailView):
     def get_context_data(self, **kwargs):
             context = super().get_context_data(**kwargs)
             context['name'] = str(context['object'])
-            context['version'] = Version.objects.filter(product=self.kwargs['pk'], version_indication=True)
+            context['version'] = Version.objects.filter(product=self.kwargs['pk'], version_indication=True).order_by('pk')
+            print(context['version'])
             return context
 
 
@@ -58,7 +59,7 @@ class ProductUpdateView(UpdateView):
     form_class = ProductForm
 
     def get_success_url(self):
-        return reverse('catalog:item', kwargs={'pk': self.object.pk})
+        return reverse('catalog:product', kwargs={'pk': self.object.pk})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
