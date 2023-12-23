@@ -29,6 +29,7 @@ class MaterialListView(ListView):
 class MaterialDetailView(DetailView):
     model = Materials
 
+
     def get_object(self, queryset=None):
         self.object = super().get_object(queryset)
         self.object.views_count += 1

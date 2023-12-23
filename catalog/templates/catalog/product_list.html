@@ -22,7 +22,6 @@
                         <li>- {{ object.price }}</li>
                         <li>- {{ object.description|truncatechars:100 }}</li>
                         <li>- {{ object.category }}</li>
-
                     </ul>
                     <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:product' object.pk %}">Купить</a>
                 </div>
