@@ -18,6 +18,10 @@
                         <li>- {{ object.time_create }}</li>
                         <li>- {{ object.time_update }}</li>
                     </ul>
+                    <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:product_update' object.pk %}">Редактировать</a>
+                    {% if user.is_superuser %}
+                    <a class="p-2 btn btn-outline-danger" href="{% url 'catalog:product_delete' object.pk %}">Удалить</a>
+                    {% endif %}
            {% if version %}
             <small class="d-block mb-3 text-muted">Актуальная версия:
 

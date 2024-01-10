@@ -3,24 +3,29 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.urls import reverse_lazy, reverse
 from catalog.forms import ProductForm, VersionForm
 from django.forms import inlineformset_factory
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
+from django.http import Http404
 
 # Create your views here.
 
 
-class ProductListView(ListView):
+class ProductListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = Product
+    permission_required = 'catalog.view_product'
     extra_context = {
         'title': 'Главная'
     }
 
-class ContactListView(ListView):
+class ContactListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = Contact
+    permission_required = 'catalog.view_product'
     template_name = 'catalog/contacts.html'
 
 
 
-class ProductDetailView(DetailView):
+class ProductDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     model = Product
+    permission_required = 'catalog.view_product'
 
     def get_context_data(self, **kwargs):
             context = super().get_context_data(**kwargs)
@@ -30,9 +35,10 @@ class ProductDetailView(DetailView):
             return context
 
 
-class ProductCreateView(CreateView):
+class ProductCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
+    permission_required = 'catalog.add_product'
     success_url = reverse_lazy('catalog:index')
 
     def form_valid(self, form):
@@ -61,10 +67,16 @@ class ProductCreateView(CreateView):
         return super().form_valid(form)
 
 
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
 
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if self.object.user != self.request.user:
+            raise Http404
+
+        return self.object
     def get_success_url(self):
         return reverse('catalog:product', kwargs={'pk': self.object.pk})
 
@@ -91,14 +103,11 @@ class ProductUpdateView(UpdateView):
             formset.save()
         return super().form_valid(form)
 
-class ProductDeleteView(DeleteView):
+class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Product
     success_url = reverse_lazy('catalog:index')
-
-
-
-
-
+    def test_func(self):
+        return self.request.user.is_superuser
 
 
 

@@ -23,10 +23,25 @@ class Product(models.Model):
     time_create = models.DateTimeField(auto_now_add=True)
     time_update = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, **NULLABLE, verbose_name='авторизованный пользователь')
+    is_published = models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.name}'
     class Meta:
+        permissions = [
+            (
+                'set_published_status',
+                 'Can publish post'
+            ),
+            (
+                'changing_the_description',
+                'Can change the description'
+            ),
+            (
+                'changing_the_category',
+                'Can change the category'
+            )
+        ]
         verbose_name = 'продукт'
         verbose_name_plural = 'продукты'
         ordering = ('price',)
