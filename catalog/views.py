@@ -1,10 +1,11 @@
-from catalog.models import Product, Contact, Version
+from catalog.models import Product, Contact, Version, Category
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy, reverse
 from catalog.forms import ProductForm, VersionForm
 from django.forms import inlineformset_factory
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
 from django.http import Http404
+from catalog.services import get_cache_for_categories
 
 # Create your views here.
 
@@ -110,7 +111,17 @@ class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return self.request.user.is_superuser
 
 
+class CategoryListView(LoginRequiredMixin, ListView):
+    model = Category
+    template_name = 'catalog/categories.html'
 
+    def get_queryset(self):
+        return get_cache_for_categories(Category)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Список категорий'
+        return context
 
 
 
